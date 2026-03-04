@@ -1,0 +1,25 @@
+{
+  "name": "taskmanagerapi",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000T\u0000a\u0000s\u0000k\u0000M\u0000a\u0000n\u0000a\u0000g\u0000e\u0000r\u0000A\u0000P\u0000I\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jorgedr12/TaskManagerAPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jorgedr12/TaskManagerAPI/issues"
+  },
+  "homepage": "https://github.com/Jorgedr12/TaskManagerAPI#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "firebase-admin": "^13.7.0"
+  }
+}
