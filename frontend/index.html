@@ -8,9 +8,25 @@
 </head>
 
 <body>
-    <h1>Mis Tareas</h1>
+    <h1>Task Manager API</h1>
 
-    <div id="lista-tareas"></div>
+    <div>
+        <input type="text" id="taskInput" placeholder="Nueva tarea...">
+        <button onclick="createTask()">Agregar</button>
+    </div>
+
+    <div id="loading" style="display: none; color: gray;">Cargando...</div>
+    <div id="no-tasks" style="display: none; color: red;">No hay tareas en la lista.</div>
+
+    <hr>
+
+    <h3>⏳ Pendientes</h3>
+    <div id="lista-pendientes"></div>
+
+    <hr>
+
+    <h3>✅ Completados</h3>
+    <div id="lista-completados"></div>
 
     <script src="js/functions.js"></script>
 </body>

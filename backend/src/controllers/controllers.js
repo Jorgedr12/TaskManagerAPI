@@ -60,19 +60,26 @@ exports.remove = async (req, res) => {
 // PUT /tasks/:id
 exports.update = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = req.params.id.toString();
         const { title, completed } = req.body; 
 
+        const docRef = tasksCollection.doc(id);
+        const doc = await docRef.get();
+
+        if (!doc.exists) {
+            return res.status(404).json({ error: "Tarea no encontrada" });
+        }
+
         const datosActualizados = {
-            title: title,
-            completed: completed
+            title: title !== undefined ? title : doc.data().title,
+            completed: completed !== undefined ? completed : doc.data().completed
         };
 
-        await tasksCollection.doc(id).update(datosActualizados);
+        await docRef.update(datosActualizados);
 
         res.json({ id, ...datosActualizados });
     } catch (error) {
-        console.error(error);
+        console.error("Error en el servidor:", error);
         res.status(500).send("Error al actualizar la tarea");
     }
 };
