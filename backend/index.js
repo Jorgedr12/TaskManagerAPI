@@ -11,6 +11,6 @@ app.use(express.json());
 app.use('/tasks', taskRoutes);
 
 app.listen(PORT, () => {
-    console.log(`✅ Task Manager API corriendo en http://localhost:${PORT}`);
-    console.log(`🚀 Endpoint base: http://localhost:${PORT}/tasks`);
+    console.log(`Task Manager API corriendo en http://localhost:${PORT}`);
+    console.log(`Endpoint base: http://localhost:${PORT}/tasks`);
 });
