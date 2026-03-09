@@ -27,7 +27,7 @@
     <main class="p-6 max-w-6xl mx-auto space-y-12 grow w-full">
         <section aria-labelledby="form-title" class="text-center space-y-6 py-8">
             <h2 id="form-title" class="text-3xl font-bold text-yellow-200">Gestiona tus pendientes</h2>
-            <form onsubmit="createTask();"
+            <form onsubmit="event.preventDefault(); createTask();"
                 class="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
                 <div class="relative grow">
                     <label for="taskInput" class="sr-only">Nueva tarea</label>
