@@ -1,32 +1,83 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./css/output.css" rel="stylesheet">
+    <title>Task Manager</title>
+    <link rel="icon" href="assets/logo.jpg" type="image/jpeg" alt="Logo Task Manager">
+    <link rel="stylesheet" href="css/output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
-<body>
-    <h1>Task Manager API</h1>
+<body class="bg-[#161618] text-gray-300 min-h-screen font-sans flex flex-col">
 
-    <div>
-        <input type="text" id="taskInput" placeholder="Nueva tarea...">
-        <button onclick="createTask()">Agregar</button>
-    </div>
+    <header class="bg-[#1c1c1c] sticky top-0 z-50 border-b border-white/10 p-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <figure class="flex items-center gap-3">
+                <img src="assets/logo.jpg" class="w-10 h-10 rounded-full object-cover border border-yellow-200/20"
+                    alt="Logo Top Select">
+                <figcaption>
+                    <h1 class="text-yellow-200 font-bold leading-none text-lg text-left">Task Manager</h1>
+                </figcaption>
+            </figure>
+        </div>
+    </header>
 
-    <div id="loading" style="display: none; color: gray;">Cargando...</div>
-    <div id="no-tasks" style="display: none; color: red;">No hay tareas en la lista.</div>
+    <main class="p-6 max-w-6xl mx-auto space-y-12 grow w-full">
+        <section aria-labelledby="form-title" class="text-center space-y-6 py-8">
+            <h2 id="form-title" class="text-3xl font-bold text-yellow-200">Gestiona tus pendientes</h2>
+            <form onsubmit="createTask();"
+                class="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
+                <div class="relative grow">
+                    <label for="taskInput" class="sr-only">Nueva tarea</label>
+                    <input type="text" id="taskInput" placeholder="¿Qué hay que hacer hoy?" maxlength="50" required
+                        class="bg-[#1c1c1c] border border-white/10 w-full pl-10 pr-4 py-2 rounded-md focus:outline-none focus:border-yellow-200/50 text-white placeholder-gray-600">
+                </div>
+                <button type="submit"
+                    class="bg-yellow-200 text-black px-6 py-2 rounded-md text-sm font-bold hover:bg-yellow-300 transition-colors">
+                    Agregar
+                </button>
+            </form>
+        </section>
 
-    <hr>
+        <div id="loading" role="status" class="text-center py-10 hidden">
+            <div class="animate-spin inline-block w-8 h-8 border-4 border-yellow-200 border-t-transparent rounded-full">
+            </div>
+            <p class="text-yellow-200 text-xs mt-2 uppercase tracking-widest text-center">Cargando...</p>
+        </div>
 
-    <h3>⏳ Pendientes</h3>
-    <div id="lista-pendientes"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <section aria-labelledby="todo-title" class="bg-[#1c1c1c] rounded-md border border-white/10 p-6 shadow-xl">
+                <header class="flex justify-between items-center mb-6">
+                    <h2 id="todo-title" class="text-xl text-white font-bold flex items-center gap-2">
+                        <span class="w-2 h-2 bg-yellow-200 rounded-full" aria-hidden="true"></span> Pendientes
+                    </h2>
+                    <span id="count-todo"
+                        class="bg-[#333] text-yellow-200 text-xs font-bold px-3 py-1 rounded-full border border-yellow-200/20">0</span>
+                </header>
+                <div id="lista-pendientes" class="flex flex-col gap-4"></div>
+            </section>
 
-    <hr>
+            <section aria-labelledby="done-title"
+                class="bg-[#1c1c1c] rounded-md border border-white/10 p-6 opacity-90 shadow-xl">
+                <header class="flex justify-between items-center mb-6">
+                    <h2 id="done-title" class="text-xl text-white font-bold flex items-center gap-2">
+                        <span class="w-2 h-2 bg-yellow-200 rounded-full" aria-hidden="true"></span> Completadas
+                    </h2>
+                    <span id="count-done"
+                        class="bg-[#333] text-yellow-200 text-xs font-bold px-3 py-1 rounded-full border border-yellow-200/20">0</span>
+                </header>
+                <div id="lista-completados" class="flex flex-col gap-4"></div>
+            </section>
+        </div>
+    </main>
 
-    <h3>✅ Completados</h3>
-    <div id="lista-completados"></div>
+    <footer class="bg-[#1c1c1c] border-t border-white/10 w-full">
+        <div class="max-w-6xl mx-auto px-6 py-8 text-center text-gray-500 text-sm">
+            <p>Desarrollado por <span class="text-yellow-200/50">Jorge Luis Duarte Ruiz</span></p>
+        </div>
+    </footer>
 
     <script src="js/functions.js"></script>
 </body>

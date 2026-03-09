@@ -1,151 +1,187 @@
-const API_URL = 'https://taskmanagerapi-gsrs.onrender.com/tasks';
+var API_URL = 'https://taskmanagerapi-gsrs.onrender.com/tasks';
 
-let tareasLocales = [];
-let isSaving = false;
+var tareasLocales = [];
+var isSaving = false;
 
 async function loadTasks() {
-    if (isSaving) return;
+    if (isSaving == true) {
+        return;
+    }
+    
+    var loader = document.getElementById('loading');
+    var listaP = document.getElementById('lista-pendientes');
+    var listaC = document.getElementById('lista-completados');
 
-    const loader = document.getElementById('loading');
-    const listaPendientes = document.getElementById('lista-pendientes');
-    const listaCompletados = document.getElementById('lista-completados');
+    if (loader == null || listaP == null || listaC == null) {
+        return;
+    }
 
-    loader.style.display = 'block';
-    listaPendientes.innerHTML = '';
-    listaCompletados.innerHTML = '';
+    loader.classList.remove('hidden');
+    listaP.innerHTML = ""; 
+    listaC.innerHTML = "";
 
     try {
-        const res = await fetch(API_URL);
-        const data = await res.json();
+        var respuesta = await fetch(API_URL);
+        var datos = await respuesta.json();
+        tareasLocales = datos;
+        
+        loader.classList.add('hidden');
 
-        const unico = {};
-        tareasLocales = data.filter(t => {
-            if (unico[t.id]) return false;
-            unico[t.id] = true;
-            return true;
-        });
+        var todoCount = 0;
+        var doneCount = 0;
 
-        loader.style.display = 'none';
-
-        tareasLocales.forEach(t => {
-            const item = document.createElement('div');
-            item.style.margin = "10px 0";
-            item.style.display = "flex";
-            item.style.gap = "10px";
-
-            const textoDisplay = t.completed ? `--- ${t.title} ---` : t.title;
+        for (var i = 0; i < tareasLocales.length; i++) {
+            var t = tareasLocales[i];
+            
+            var item = document.createElement('article');
+            item.className = "bg-[#1c1c1c] border border-white/5 p-5 rounded-md group hover:border-yellow-200/30 transition-all duration-300 shadow-md flex items-start gap-4 text-left";
+            
+            var estiloTexto = "text-white";
+            if (t.completed == true) {
+                estiloTexto = "text-gray-600 line-through decoration-1";
+            }
 
             item.innerHTML = `
                 <input type="checkbox" ${t.completed ? 'checked' : ''} 
-                    onchange="toggleTask('${t.id}', this.checked)">
-                <div id="container-${t.id}" style="flex-grow: 1;">
-                    <span onclick="enableEdit('${t.id}')" style="cursor: pointer;">
-                        ${textoDisplay}
-                    </span>
+                    onchange="toggleTask('${t.id}', this.checked)"
+                    class="mt-1.5 w-4 h-4 accent-yellow-200 cursor-pointer shrink-0 border-white/10 bg-[#333]">
+                
+                <div id="container-${t.id}" class="flex-1 min-w-0 text-left">
+                    <h3 onclick="enableEdit('${t.id}')" 
+                        class="${estiloTexto} font-medium cursor-pointer wrap-break-words leading-relaxed text-left block w-full">
+                        ${t.title}
+                    </h3>
                 </div>
-                <button onclick="deleteTask('${t.id}')">Eliminar</button>
+
+                <button onclick="deleteTask('${t.id}')" 
+                    class="text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 mt-1">
+                    <i class="fa-solid fa-trash-can text-sm"></i>
+                </button>
             `;
 
-            if (t.completed) {
-                listaCompletados.appendChild(item);
+            if (t.completed == true) {
+                listaC.appendChild(item);
+                doneCount = doneCount + 1;
             } else {
-                listaPendientes.appendChild(item);
+                listaP.appendChild(item);
+                todoCount = todoCount + 1;
             }
-        });
-    } catch (e) {
-        console.error("Error al cargar:", e);
+        }
+
+        if (todoCount == 0) {
+            listaP.innerHTML = "<div class='py-8 text-center border border-dashed border-white/10 rounded-md text-gray-500 text-sm'>No hay tareas pendientes</div>";
+        }
+        if (doneCount == 0) {
+            listaC.innerHTML = "<div class='py-8 text-center border border-dashed border-white/10 rounded-md text-gray-700 text-sm'>No hay tareas completadas</div>";
+        }
+
+        document.getElementById('count-todo').innerText = todoCount;
+        document.getElementById('count-done').innerText = doneCount;
+
+    } catch (error) {
+        console.log("Error al cargar: " + error);
+        loader.classList.add('hidden');
     }
 }
 
-async function saveEdit(id) {
-    if (isSaving) return;
+async function createTask() {
+    var input = document.getElementById('taskInput');
+    var titulo = input.value;
 
-    const input = document.getElementById(`edit-input-${id}`);
-    if (!input) return;
-
-    const nuevoTitulo = input.value.trim();
-    const tarea = tareasLocales.find(t => String(t.id) === String(id));
-
-    if (!nuevoTitulo || nuevoTitulo === tarea.title) {
-        loadTasks();
+    if (titulo.trim() == "") {
+        alert("Escribe una tarea");
         return;
     }
 
     isSaving = true;
     try {
-        await fetch(`${API_URL}/${id}`, {
-            method: 'PUT',
+        await fetch(API_URL, {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title: nuevoTitulo,
-                completed: tarea.completed
-            })
+            body: JSON.stringify({ title: titulo, completed: false })
         });
-
-        setTimeout(() => {
-            isSaving = false;
-            loadTasks();
-        }, 300);
-
+        
+        input.value = ""; 
+        isSaving = false;
+        loadTasks();
     } catch (e) {
         isSaving = false;
-        console.error(e);
+        console.log("Error al crear");
     }
 }
 
-function enableEdit(id) {
-    const tarea = tareasLocales.find(t => String(t.id) === String(id));
-    const container = document.getElementById(`container-${id}`);
-
-    if (container.querySelector('input')) return;
-
-    container.innerHTML = `<input type="text" id="edit-input-${id}" value="${tarea.title}">`;
-
-    const input = document.getElementById(`edit-input-${id}`);
-    input.focus();
-
-    input.onkeydown = (e) => {
-        if (e.key === 'Enter') {
-            input.onblur = null;
-            saveEdit(id);
-        }
-    };
-    input.onblur = () => saveEdit(id);
+async function deleteTask(id) {
+    var confirmar = confirm("¿Eliminar esta tarea?");
+    if (confirmar == true) {
+        await fetch(API_URL + "/" + id, { method: 'DELETE' });
+        loadTasks();
+    }
 }
 
 async function toggleTask(id, nuevoEstado) {
-    if (isSaving) return;
-    const tarea = tareasLocales.find(t => String(t.id) === String(id));
+    var tareaEncontrada;
+    for (var i = 0; i < tareasLocales.length; i++) {
+        if (tareasLocales[i].id == id) {
+            tareaEncontrada = tareasLocales[i];
+        }
+    }
 
     isSaving = true;
-    await fetch(`${API_URL}/${id}`, {
+    await fetch(API_URL + "/" + id, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: tarea.title, completed: nuevoEstado })
+        body: JSON.stringify({ title: tareaEncontrada.title, completed: nuevoEstado })
     });
     isSaving = false;
     loadTasks();
 }
 
-async function createTask() {
-    const input = document.getElementById('taskInput');
-    if (!input.value.trim() || isSaving) return;
+function enableEdit(id) {
+    var tarea;
+    for (var i = 0; i < tareasLocales.length; i++) {
+        if (tareasLocales[i].id == id) {
+            tarea = tareasLocales[i];
+        }
+    }
+    
+    var caja = document.getElementById("container-" + id);
+    if (caja.querySelector('input') != null) return;
 
-    isSaving = true;
-    await fetch(API_URL, {
-        method: 'POST',
+    caja.innerHTML = `
+        <input type="text" id="edit-input-${id}" 
+            value="${tarea.title}" maxlength="50"
+            class="bg-transparent border-b border-yellow-200/50 text-white w-full focus:outline-none py-1 text-left">
+    `;
+    
+    var inputEdicion = document.getElementById("edit-input-" + id);
+    inputEdicion.focus();
+    
+    inputEdicion.onkeydown = function(e) { 
+        if (e.key == 'Enter') { 
+            inputEdicion.onblur = null; 
+            saveEdit(id); 
+        } 
+    };
+    inputEdicion.onblur = function() { saveEdit(id); };
+}
+
+async function saveEdit(id) {
+    var input = document.getElementById("edit-input-" + id);
+    var nuevoTexto = input.value.trim();
+
+    if (nuevoTexto == "") {
+        loadTasks();
+        return;
+    }
+
+    await fetch(API_URL + "/" + id, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: input.value, completed: false })
+        body: JSON.stringify({ title: nuevoTexto, completed: false })
     });
-    isSaving = false;
-    input.value = '';
     loadTasks();
 }
 
-async function deleteTask(id) {
-    if (!confirm("¿Eliminar?") || isSaving) return;
-    await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+document.addEventListener('DOMContentLoaded', function() {
     loadTasks();
-}
-
-document.addEventListener('DOMContentLoaded', loadTasks);
+});
