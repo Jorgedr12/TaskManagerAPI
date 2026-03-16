@@ -1,5 +1,7 @@
+import 'dotenv/config';
 import db from '../config/firebase.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const tasksCollection = db.collection('tasks');
 const usersCollection = db.collection('users');
@@ -179,7 +181,6 @@ export const updateTask = async (req, res) => {
 
 // Login
 export const login = async (req, res) => {
-    require('dotenv').config();
 
     const { email, password } = req.body;
     try {
@@ -197,15 +198,17 @@ export const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { userId: userDoc.id, email: userData.email }, 
-            process.env.JWT_SECRET, 
+            { userId: userDoc.id, email: userData.email },
+            process.env.JWT_SECRET,
             { expiresIn: '2h' }
         );
 
         res.json({
             message: "¡Inicio de sesión exitoso!",
             token: token,
-            userId: userDoc.id
+            userId: userDoc.id,
+            name: userData.name,
+            email: userData.email
         });
     } catch (error) {
         res.status(500).json({ error: 'Error en el login' });

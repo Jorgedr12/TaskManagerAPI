@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="icon" href="assets/logo.jpg" type="image/jpeg" alt="Logo Task Manager">
+    <link rel="stylesheet" href="css/output.css">
+</head>
+
+<body class="bg-[#161618] text-gray-300 min-h-screen flex items-center justify-center p-4">
+    <main class="w-full max-w-md bg-[#1c1c1c] border border-white/10 p-8 rounded-lg shadow-2xl">
+        <div class="text-center mb-8">
+            <img src="assets/logo.jpg" class="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-yellow-200/20"
+                alt="Logo">
+            <h1 class="text-2xl font-bold text-yellow-200">Bienvenido</h1>
+            <p class="text-gray-500 text-sm">Ingresa a tu cuenta de Task Manager</p>
+        </div>
+
+        <form onsubmit="handleLogin(event)" class="space-y-6">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2">Correo Electrónico</label>
+                <input type="email" id="email" required
+                    class="w-full bg-[#252525] border border-white/5 p-3 rounded-md focus:outline-none focus:border-yellow-200/50 text-white">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2">Contraseña</label>
+                <input type="password" id="password" required
+                    class="w-full bg-[#252525] border border-white/5 p-3 rounded-md focus:outline-none focus:border-yellow-200/50 text-white">
+            </div>
+            <button type="submit" id="btn-login"
+                class="w-full bg-yellow-200 text-black font-bold py-3 rounded-md hover:bg-yellow-300 transition-all uppercase tracking-widest text-sm">
+                Entrar
+            </button>
+            <div class="text-center text-gray-500 text-sm mt-4">
+                ¿No tienes cuenta? <a href="register.html" class="text-yellow-200 hover:underline">Regístrate</a>
+            </div>
+
+        </form>
+    </main>
+    <script src="js/functions.js"></script>
+</body>
+
+</html>

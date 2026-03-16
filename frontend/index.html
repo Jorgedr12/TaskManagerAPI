@@ -7,22 +7,30 @@
     <title>Task Manager</title>
     <link rel="icon" href="assets/logo.jpg" type="image/jpeg" alt="Logo Task Manager">
     <link rel="stylesheet" href="css/output.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body class="bg-[#161618] text-gray-300 min-h-screen font-sans flex flex-col">
 
     <header class="bg-[#1c1c1c] sticky top-0 z-50 border-b border-white/10 p-4">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <figure class="flex items-center gap-3">
-                <img src="assets/logo.jpg" class="w-10 h-10 rounded-full object-cover border border-yellow-200/20"
-                    alt="Logo Top Select">
-                <figcaption>
-                    <h1 class="text-yellow-200 font-bold leading-none text-lg text-left">Task Manager</h1>
-                </figcaption>
-            </figure>
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <figure class="flex items-center gap-3">
+            <img src="assets/logo.jpg" class="w-10 h-10 rounded-full object-cover border border-yellow-200/20" alt="Logo">
+            <figcaption>
+                <h1 class="text-yellow-200 font-bold leading-none text-lg text-left">Task Manager</h1>
+            </figcaption>
+        </figure>
+
+        <div class="flex items-center gap-4">
+            <span id="user-name" class="text-gray-400 text-sm font-medium hidden sm:block">
+                </span>
+            <button onclick="logout()" 
+                class="flex items-center gap-2 bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-400 px-3 py-1.5 rounded-md border border-white/10 transition-all text-xs font-bold uppercase tracking-wider">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Salir
+            </button>
         </div>
-    </header>
+    </div>
+</header>
 
     <main class="p-6 max-w-6xl mx-auto space-y-12 grow w-full">
         <section aria-labelledby="form-title" class="text-center space-y-6 py-8">

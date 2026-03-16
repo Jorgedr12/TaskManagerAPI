@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="icon" href="assets/logo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="css/output.css">
+</head>
+
+<body class="bg-[#161618] text-gray-300 min-h-screen flex items-center justify-center p-4">
+    <main class="w-full max-w-md bg-[#1c1c1c] border border-white/10 p-8 rounded-lg shadow-2xl">
+        <div class="text-center mb-8">
+            <img src="assets/logo.jpg" class="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-yellow-200/20"
+                alt="Logo">
+            <h1 class="text-2xl font-bold text-yellow-200">Crear Cuenta</h1>
+            <p class="text-gray-500 text-sm">Únete a la gestión de tareas de Top Select</p>
+        </div>
+
+        <form onsubmit="handleRegister(event)" class="space-y-5">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2">Nombre Completo</label>
+                <input type="text" id="reg-name" required placeholder="Tu nombre"
+                    class="w-full bg-[#252525] border border-white/5 p-3 rounded-md focus:outline-none focus:border-yellow-200/50 text-white placeholder:text-gray-700">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2">Correo Electrónico</label>
+                <input type="email" id="reg-email" required placeholder="correo@ejemplo.com"
+                    class="w-full bg-[#252525] border border-white/5 p-3 rounded-md focus:outline-none focus:border-yellow-200/50 text-white placeholder:text-gray-700">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2">Contraseña</label>
+                <input type="password" id="reg-password" required minlength="8" placeholder="Mínimo 8 caracteres"
+                    class="w-full bg-[#252525] border border-white/5 p-3 rounded-md focus:outline-none focus:border-yellow-200/50 text-white placeholder:text-gray-700">
+            </div>
+            
+            <button type="submit" id="btn-register"
+                class="w-full bg-yellow-200 text-black font-bold py-3 rounded-md hover:bg-yellow-300 transition-all uppercase tracking-widest text-sm mt-4">
+                Registrarme
+            </button>
+
+            <div class="text-center text-gray-500 text-sm mt-4">
+                ¿Ya tienes cuenta? <a href="login.html" class="text-yellow-200 hover:underline">Inicia Sesión</a>
+            </div>
+        </form>
+    </main>
+
+    <script src="js/functions.js"></script>
+</body>
+
+</html>
