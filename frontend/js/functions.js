@@ -1,4 +1,4 @@
-var API_URL = 'http://localhost:3000/api/';
+var API_URL = 'https://taskmanagerapi-gsrs.onrender.com/api/';
 var tareasLocales = [];
 var isSaving = false;
 
@@ -162,7 +162,7 @@ async function handleLogin(e) {
     btn.innerText = "Verificando...";
 
     try {
-        const res = await fetch('http://localhost:3000/api/login', {
+        const res = await fetch(API_URL + '/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -201,7 +201,7 @@ async function handleRegister(e) {
     btn.innerText = "Procesando...";
 
     try {
-        const res = await fetch('http://localhost:3000/api/users', {
+        const res = await fetch(API_URL + '/api/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
