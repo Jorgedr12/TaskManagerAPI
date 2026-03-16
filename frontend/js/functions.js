@@ -162,7 +162,7 @@ async function handleLogin(e) {
     btn.innerText = "Verificando...";
 
     try {
-        const res = await fetch(API_URL + '/api/login', {
+        const res = await fetch(API_URL + 'login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -201,7 +201,7 @@ async function handleRegister(e) {
     btn.innerText = "Procesando...";
 
     try {
-        const res = await fetch(API_URL + '/api/users', {
+        const res = await fetch(API_URL + 'users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
