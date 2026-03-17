@@ -123,7 +123,7 @@ function renderTasks() {
             <div id="container-${t.id}" class="flex-1 min-w-0 text-left">
                 <h3 onclick="enableEdit('${t.id}')" class="${estiloTexto} font-medium cursor-pointer block w-full">${t.title}</h3>
             </div>
-            <button onclick="deleteTask('${t.id}')" class="text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"><i class="fa-solid fa-trash-can"></i></button>
+            <button onclick="deleteTask('${t.id}')" class="text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">Borrar</button>
         `;
 
         if (t.completed) {
